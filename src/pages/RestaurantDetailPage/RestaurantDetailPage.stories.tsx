@@ -87,7 +87,10 @@ export const Loading: Story = {
     },
   },
   play: async ({ canvas }) => {
-    const item = await canvas.findByText(/Looking for some food.../i)
+    // @droppy-ui/design-system's Spinner exposes its loading state via
+    // role="status" rather than main's local Spinner's visible
+    // "Looking for some food..." copy.
+    const item = await canvas.findByRole('status')
     await expect(item).toBeInTheDocument()
   },
 }

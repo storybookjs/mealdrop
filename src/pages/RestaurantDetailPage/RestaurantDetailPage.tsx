@@ -1,47 +1,54 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import {
+  Badge,
+  Body,
+  Container,
+  ErrorBlock,
+  Heading,
+  Review,
+  Spinner,
+  TopBanner,
+} from '@droppy-ui/design-system'
+import styled from 'styled-components'
 
 import { PageTemplate } from '../../templates/PageTemplate'
 import { useFetchRestaurant } from '../../api/hooks'
 import { useAppDispatch, useAppSelector } from '../../app-state'
 import { CartItem, clearItemAction, saveItemAction, selectCartItems } from '../../app-state/cart'
-import { TopBanner } from '../../components/TopBanner'
-import { Heading, Body } from '../../components/typography'
-import { Badge } from '../../components/Badge'
-import { Review } from '../../components/Review'
 import { AnimatedIllustration } from '../../components/AnimatedIllustration'
-import { ErrorBlock } from '../../components/ErrorBlock'
-import { Spinner } from '../../components/Spinner'
 
 import { FoodItemModal } from './components/FoodItemModal'
 import { FoodSection } from './components/FoodSection'
 
-const DetailSection = styled.div(
-  ({ theme: { color, spacing } }) => css`
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
-    background: ${color.restaurantDetailBackground};
-    .review-text {
-      color: ${color.reviewText};
-      margin-bottom: ${spacing.m};
-    }
-  `
-)
+const DetailSection = styled.div`
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background: var(--ds-color-surface-overlay);
+`
 
-const MenuSection = styled.div(
-  ({ theme: { color } }) => css`
-    padding-top: 3rem !important;
-    padding-bottom: 5rem !important;
-    background: ${color.menuSectionBackground};
-  `
-)
+const MenuSection = styled.div`
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+  background: var(--ds-color-surface-sunken);
+`
 
-const StyledBadge = styled(Badge)(
-  ({ theme: { spacing } }) => css`
-    margin-right: ${spacing.s};
-  `
-)
+// The spinner is an inline primitive; centering it over the content area is
+// the page's job. Height matches the template's content min-height.
+const SpinnerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+`
+
+const StyledBadge = styled(Badge)`
+  margin-right: 1em;
+`
+
+const StyledReview = styled(Review)`
+  margin-bottom: 0.5rem;
+`
 
 export const RestaurantDetailPage = () => {
   const { id = '' } = useParams<'id'>()
@@ -63,7 +70,7 @@ export const RestaurantDetailPage = () => {
         <ErrorBlock
           title="Something went wrong!"
           body="Our bad, something went wrong on our side."
-          image={<AnimatedIllustration animation="NotFound" />}
+          illustration={<AnimatedIllustration animation="NotFound" />}
           onButtonClick={retryRequest}
           buttonText="Try again"
         />
@@ -77,7 +84,7 @@ export const RestaurantDetailPage = () => {
         <ErrorBlock
           title="We can't find this page"
           body="This page doesn’t exist, keep looking."
-          image={<AnimatedIllustration animation="Error" />}
+          illustration={<AnimatedIllustration animation="Error" />}
           onButtonClick={() => navigate('/')}
           buttonText="Home"
         />
@@ -88,7 +95,9 @@ export const RestaurantDetailPage = () => {
   if (status === 'loading') {
     return (
       <PageTemplate type="sticky-header">
-        <Spinner />
+        <SpinnerContainer>
+          <Spinner />
+        </SpinnerContainer>
       </PageTemplate>
     )
   }
@@ -110,19 +119,19 @@ export const RestaurantDetailPage = () => {
       />
       <TopBanner photoUrl={photoUrl} onBackClick={() => navigate(-1)} />
       <DetailSection>
-        <div className="container">
+        <Container>
           <Heading level={2}>{name}</Heading>
           <Body>Specialties: {specialty}</Body>
-          <Review rating={rating} />
+          <StyledReview rating={rating} />
           <div>
             {categories?.map((category) => (
               <StyledBadge key={category} text={category} />
             ))}
           </div>
-        </div>
+        </Container>
       </DetailSection>
       <MenuSection>
-        <div className="container">
+        <Container>
           {menu.food && (
             <FoodSection
               title="To eat"
@@ -147,7 +156,7 @@ export const RestaurantDetailPage = () => {
               onItemClick={setSelectedItem}
             />
           )}
-        </div>
+        </Container>
       </MenuSection>
     </PageTemplate>
   )

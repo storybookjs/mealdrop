@@ -1,16 +1,12 @@
 import { useState, ChangeEvent } from 'react'
-import styled, { css } from 'styled-components'
+import { Body, Button, Input } from '@droppy-ui/design-system'
+import styled from 'styled-components'
 
-import { Button } from '../../../../components/Button'
-import { Input } from '../../../../components/forms/Input'
-import { Body } from '../../../../components/typography/Body'
 import { type ContactDetailsFormData } from './validation'
 
-const DisclaimerText = styled(Body)(
-  ({ theme: { spacing } }) => css`
-    margin-bottom: ${spacing.m};
-  `
-)
+const DisclaimerText = styled(Body)`
+  margin-bottom: 1.25em;
+`
 
 type ContactDetailsProps = {
   formData: ContactDetailsFormData

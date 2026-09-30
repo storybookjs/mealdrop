@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import { memo } from 'react'
+import { Heading } from '@droppy-ui/design-system'
 
 import { breakpoints } from '../../../../styles/breakpoints'
 import { FoodItem } from '../FoodItem/FoodItem'
 import type { CartItem } from '../../../../app-state/cart'
 import type { FoodMenuItem } from '../../../../types'
-import { Heading } from '../../../../components/typography'
 
 type FoodSectionProps = {
   items: FoodMenuItem[]

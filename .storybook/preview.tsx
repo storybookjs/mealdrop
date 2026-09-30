@@ -9,13 +9,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import { Provider as StoreProvider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
-import styled, { css, ThemeProvider } from 'styled-components'
+import '@droppy-ui/design-system/styles.css'
 
 import { demoModeLoader } from './demo-mode'
+import { SideBySide } from './side-by-side'
 import { rootReducer } from '../src/app-state'
 import { breakpoints, viewports } from '../src/styles/breakpoints'
 import { GlobalStyle } from '../src/styles/GlobalStyle'
-import { darkTheme, lightTheme } from '../src/styles/theme'
 import { sb } from 'storybook/test'
 
 sb.mock('../src/helpers/getCurrency.ts', { spy: true })
@@ -26,41 +26,42 @@ const mswPreviewLoader = mswLoader(async () => {
     // Relative so the worker resolves under whatever base path the build is
     // served from, not just the domain root.
     serviceWorker: { url: './mockServiceWorker.js' },
+    quiet: true,
+    onUnhandledRequest: ({ url, method }) => {
+      const pathname = new URL(url).pathname
+      if (pathname.startsWith('/.netlify/functions')) {
+        console.error(`Unhandled ${method} request to ${url}.
+
+        This exception has been only logged in the console, however, it's strongly recommended to resolve this error as you don't want unmocked data in Storybook stories.
+
+        If you wish to mock an error response, please refer to this guide: https://mswjs.io/docs/recipes/mocking-error-responses
+      `)
+      }
+    },
   })
   return worker
 })
 
-const ThemeBlock = styled.div<{ $left?: boolean; $fullScreen?: boolean }>(
-  ({ $left, $fullScreen, theme: { color } }) => css`
-    position: absolute;
-    top: 0;
-    left: ${$left ? 0 : '50vw'};
-    border-right: ${$left ? '1px solid #202020' : 'none'};
-    right: ${$left ? '50vw' : 0};
-    width: 50vw;
-    height: 100vh;
-    bottom: 0;
-    overflow: auto;
-    padding: ${$fullScreen ? 0 : '1rem'};
-    background: ${color.screenBackground};
-    ${breakpoints.S} {
-      left: ${$left ? 0 : '50vw'};
-      right: ${$left ? '50vw' : 0};
-      padding: 0 !important;
-    }
-  `
-)
-
-export const withTheme: Decorator = (
-  StoryFn,
-  { globals: { theme = 'light' }, parameters, viewMode }
-) => {
-  const fullScreen = parameters.layout === 'fullscreen'
-  const appTheme = theme === 'light' ? lightTheme : darkTheme
-  const leftContainerRef = React.useRef<HTMLDivElement>(null)
-  const rightContainerRef = React.useRef<HTMLDivElement>(null)
-  const isScrolling = React.useRef(false)
+export const withTheme: Decorator = (StoryFn, { id, globals: { theme = 'light' }, viewMode }) => {
+  // Side-by-side renders the story in two isolated pane iframes (one per
+  // theme) that sync scroll and interactions — see side-by-side.tsx. Each
+  // pane is a regular single-theme preview, so it goes through the branches
+  // below with its own theme global.
   const isSideBySide = theme === 'side-by-side' && viewMode === 'story'
+
+  // @droppy-ui/design-system and this app's own CSS both read data-ds-theme
+  // on the root element for their dark-mode custom properties (see
+  // src/App.tsx). In side-by-side mode each pane document applies its own
+  // attribute; the outer document is fully covered by the panes.
+  React.useEffect(() => {
+    if (isSideBySide) {
+      return
+    }
+    document.documentElement.dataset.dsTheme = theme === 'dark' ? 'dark' : 'light'
+    return () => {
+      delete document.documentElement.dataset.dsTheme
+    }
+  }, [theme, isSideBySide])
 
   React.useEffect(() => {
     if (isSideBySide) {
@@ -72,64 +73,16 @@ export const withTheme: Decorator = (
     }
   }, [isSideBySide])
 
-  React.useEffect(() => {
-    const leftContainer = leftContainerRef.current
-    const rightContainer = rightContainerRef.current
-
-    if (!leftContainer || !rightContainer || !isSideBySide) {
-      return
-    }
-
-    const handleScroll = (source: HTMLDivElement, target: HTMLDivElement) => {
-      if (!isScrolling.current) {
-        isScrolling.current = true
-        target.scrollTop = source.scrollTop
-        requestAnimationFrame(() => {
-          isScrolling.current = false
-        })
-      }
-    }
-
-    const leftScrollHandler = () => handleScroll(leftContainer, rightContainer)
-    const rightScrollHandler = () => handleScroll(rightContainer, leftContainer)
-
-    leftContainer.addEventListener('scroll', leftScrollHandler)
-    rightContainer.addEventListener('scroll', rightScrollHandler)
-
-    return () => {
-      leftContainer.removeEventListener('scroll', leftScrollHandler)
-      rightContainer.removeEventListener('scroll', rightScrollHandler)
-    }
-  }, [isSideBySide])
-
-  switch (theme) {
-    case 'side-by-side': {
-      return (
-        <>
-          <ThemeProvider theme={lightTheme}>
-            <GlobalStyle />
-            <ThemeBlock ref={leftContainerRef} $left $fullScreen={fullScreen}>
-              <StoryFn />
-            </ThemeBlock>
-          </ThemeProvider>
-          <ThemeProvider theme={darkTheme}>
-            <GlobalStyle />
-            <ThemeBlock ref={rightContainerRef} $fullScreen={fullScreen}>
-              <StoryFn />
-            </ThemeBlock>
-          </ThemeProvider>
-        </>
-      )
-    }
-    default: {
-      return (
-        <ThemeProvider theme={appTheme}>
-          <GlobalStyle />
-          <StoryFn />
-        </ThemeProvider>
-      )
-    }
+  if (isSideBySide) {
+    return <SideBySide storyId={id} />
   }
+
+  return (
+    <>
+      <GlobalStyle />
+      <StoryFn />
+    </>
+  )
 }
 
 /**
@@ -227,11 +180,15 @@ const preview: Preview = {
       source: {
         excludeDecorators: true,
       },
-      container: (props: DocsContainerProps) => (
-        <ThemeProvider theme={lightTheme}>
-          <DocsContainer {...props} />
-        </ThemeProvider>
-      ),
+      container: (props: DocsContainerProps) => {
+        React.useEffect(() => {
+          document.documentElement.dataset.dsTheme = 'light'
+          return () => {
+            delete document.documentElement.dataset.dsTheme
+          }
+        }, [])
+        return <DocsContainer {...props} />
+      },
     },
   },
   globalTypes: {

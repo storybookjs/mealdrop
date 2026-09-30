@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { expect } from 'storybook/test'
 import styled from 'styled-components'
 
-import { Carousel } from './Carousel'
+import { Carousel } from '@droppy-ui/design-system'
 
 const DemoSlide = styled.div`
   height: 120px;
@@ -12,7 +12,7 @@ const DemoSlide = styled.div`
   justify-content: center;
   font-size: 1.5rem;
   color: white;
-  background-color: ${({ theme }) => theme.color.buttonPrimary};
+  background-color: var(--ds-color-action-primary);
 `
 
 const makeSlides = (count: number) =>

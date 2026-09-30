@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { ContactDetails } from './ContactDetails'
 import { DeliveryDetails } from './DeliveryDetails'
@@ -22,16 +22,14 @@ const defaultData: ContactDetailsFormData & DeliveryDetailsFormData = {
   phone: '',
 }
 
-const FormContainer = styled.div(
-  ({ theme: { color, borderRadius } }) => css`
-    width: 100%;
-    min-height: 480px;
-    margin-right: 1.5rem;
-    background: ${color.formBackground};
-    padding: 1.5rem;
-    border-radius: ${borderRadius.s};
-  `
-)
+const FormContainer = styled.div`
+  width: 100%;
+  min-height: 480px;
+  margin-right: 1.5rem;
+  background: var(--ds-color-surface-overlay);
+  padding: 1.5rem;
+  border-radius: var(--ds-radius-card);
+`
 
 export const MultiStepForm = () => {
   const [currentStep, setCurrentStep] = useState(0)

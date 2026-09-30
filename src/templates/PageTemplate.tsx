@@ -1,46 +1,29 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import { PageTemplate as DsPageTemplate } from '@droppy-ui/design-system'
 
 import { Header, HeaderComponent } from '../components/Header/Header'
 import { Footer } from '../components/Footer/Footer'
-
-const Container = styled.div`
-  min-height: calc(100vh - 200px);
-`
 
 type PageTemplateProperties = {
   type?: 'default' | 'sticky-header' | 'basic'
 }
 
+const headers = {
+  default: <Header />,
+  'sticky-header': <Header sticky />,
+  basic: <HeaderComponent logoOnly />,
+}
+
 export const PageTemplate: React.FC<React.PropsWithChildren<PageTemplateProperties>> = ({
   type = 'default',
   children,
-}) => {
-  switch (type) {
-    case 'sticky-header': {
-      return (
-        <>
-          <Header sticky />
-          <Container>{children}</Container>
-          <Footer />
-        </>
-      )
-    }
-    case 'basic': {
-      return (
-        <>
-          <HeaderComponent logoOnly />
-          <Container>{children}</Container>
-        </>
-      )
-    }
-  }
-
-  return (
-    <>
-      <Header />
-      <Container>{children}</Container>
-      <Footer />
-    </>
-  )
-}
+  ...rest
+}) => (
+  <DsPageTemplate
+    header={headers[type]}
+    footer={type === 'basic' ? undefined : <Footer />}
+    {...rest}
+  >
+    {children}
+  </DsPageTemplate>
+)

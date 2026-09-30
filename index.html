@@ -33,6 +33,24 @@
     <script>
       var global = global || window
     </script>
+    <!-- Sets the design system's theme attribute before the bundle loads:
+         with no attribute @droppy-ui/design-system follows the OS preference,
+         and the React effect that mirrors the stored toggle only runs after
+         hydration, so a stored choice that differs from the OS would flash the
+         wrong theme on first paint. Reads the same "darkMode" localStorage key
+         use-dark-mode persists to, with the same OS-preference fallback. -->
+    <script>
+      ;(function () {
+        var dark
+        try {
+          dark = JSON.parse(localStorage.getItem('darkMode'))
+        } catch (err) {}
+        if (typeof dark !== 'boolean') {
+          dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        }
+        document.documentElement.dataset.dsTheme = dark ? 'dark' : 'light'
+      })()
+    </script>
     <script type="module" src="/src/index.tsx"></script>
     <!--
     This HTML file is a template.

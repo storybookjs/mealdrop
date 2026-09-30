@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { Body } from './Body'
+import { Body } from '@droppy-ui/design-system'
 
 const meta = {
   title: 'Components/Typography/Body',

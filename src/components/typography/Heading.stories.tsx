@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { Heading } from './Heading'
+import { Heading } from '@droppy-ui/design-system'
 
 const meta = {
   title: 'Components/Typography/Heading',

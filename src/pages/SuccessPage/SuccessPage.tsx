@@ -1,14 +1,13 @@
+import { Body, Heading, TopBanner } from '@droppy-ui/design-system'
 import styled, { css } from 'styled-components'
 
 import ladies from '../../assets/images/ladies-sushi.svg'
 import { useAppSelector } from '../../app-state'
 import { selectOrderItems } from '../../app-state/order'
 import { PageTemplate } from '../../templates/PageTemplate'
-import { TopBanner } from '../../components/TopBanner'
-import { Heading } from '../../components/typography/Heading'
+import { Link } from '../../components/Link'
 import { OrderSummary } from '../../components/ShoppingCart'
 import { breakpoints } from '../../styles/breakpoints'
-import { Body } from '../../components/typography/Body'
 
 const Image = styled.div<{ src: string }>(
   ({ src }) => css`
@@ -38,12 +37,16 @@ const StyledHeading = styled(Heading)`
   margin-bottom: 1.5rem;
 `
 
-const Container = styled.div(
-  ({ theme: { color } }) => css`
-    background: ${color.menuSectionBackground};
-    min-height: 100vh;
-  `
-)
+// No semantic token pairs these values: composed from palette variables
+// with an explicit dark override.
+const Container = styled.div`
+  background: var(--ds-palette-neutral-50);
+  min-height: 100vh;
+
+  [data-ds-theme='dark'] & {
+    background: var(--ds-palette-neutral-950);
+  }
+`
 
 const OrderSummaryContainer = styled.div`
   max-width: 400px;
@@ -51,6 +54,15 @@ const OrderSummaryContainer = styled.div`
   margin-top: 2.5rem;
   margin-bottom: 1.5rem;
   text-align: left;
+`
+
+const ContinueBrowsing = styled(Link)`
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  text-decoration: underline;
 `
 
 export const SuccessPage = () => {
@@ -63,6 +75,7 @@ export const SuccessPage = () => {
           <Body type="span">Estimated delivery</Body>
           <StyledHeading level={2}>13:23 today</StyledHeading>
           <OrderSummary cartItems={orderItems} />
+          <ContinueBrowsing to="/">Continue browsing</ContinueBrowsing>
         </OrderSummaryContainer>
         <Image src={ladies} />
       </Container>

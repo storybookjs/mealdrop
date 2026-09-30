@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": ["typescript", "react", "unicorn", "oxc"],
-  "jsPlugins": ["eslint-plugin-storybook"],
   "categories": {
     "correctness": "error",
     "suspicious": "warn"
@@ -20,35 +19,10 @@
     "typescript/no-explicit-any": "off",
     "no-underscore-dangle": "off"
   },
-  "overrides": [
-    {
-      "files": ["**/*.stories.{ts,tsx,js,jsx,mjs,cjs}", "**/*.story.{ts,tsx,js,jsx,mjs,cjs}"],
-      "rules": {
-        "react-hooks/rules-of-hooks": "off",
-        "storybook/await-interactions": "error",
-        "storybook/context-in-play-function": "error",
-        "storybook/default-exports": "error",
-        "storybook/hierarchy-separator": "warn",
-        "storybook/no-redundant-story-name": "warn",
-        "storybook/no-renderer-packages": "error",
-        "storybook/prefer-pascal-case": "warn",
-        "storybook/story-exports": "error",
-        "storybook/use-storybook-expect": "error",
-        "storybook/use-storybook-testing-library": "error"
-      }
-    },
-    {
-      "files": [".storybook/main.{js,cjs,mjs,ts}"],
-      "rules": {
-        "storybook/no-uninstalled-addons": "error"
-      }
-    }
-  ],
   "ignorePatterns": [
     "node_modules",
     ".yarn",
     "build",
-    "storybook-static",
     "coverage",
     ".nyc_output",
     "public",

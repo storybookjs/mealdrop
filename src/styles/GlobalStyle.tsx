@@ -1,17 +1,10 @@
-import { createGlobalStyle, css } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
 import { breakpoints } from './breakpoints'
 import { resetCSS } from './CSSReset'
-import 'react-loading-skeleton/dist/skeleton.css'
 
-export const GlobalStyle = createGlobalStyle(
-  ({ theme: { color } }) => css`
+export const GlobalStyle = createGlobalStyle`
     ${resetCSS}
-    // smooth light-dark mode transition
-    * {
-      transition: all 250ms ease-in;
-      transition-property: background, color, border;
-    }
     @font-face {
       font-family: 'Montserrat';
       font-style: normal;
@@ -102,7 +95,11 @@ export const GlobalStyle = createGlobalStyle(
 
     body {
       margin: 0;
-      background: ${color.screenBackground};
+      background: var(--ds-color-surface-page);
+      /* Text colour is set here (not on *) so it inherits: a universal colour
+         rule lands directly on every element, including svg, and overrides the
+         design system's currentcolor-based icon colouring. */
+      color: var(--ds-palette-neutral-900);
       font-family: 'Montserrat', sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -111,7 +108,6 @@ export const GlobalStyle = createGlobalStyle(
 
     * {
       box-sizing: border-box;
-      color: #2c2c2c;
     }
 
     a {
@@ -163,4 +159,3 @@ export const GlobalStyle = createGlobalStyle(
       }
     }
   `
-)

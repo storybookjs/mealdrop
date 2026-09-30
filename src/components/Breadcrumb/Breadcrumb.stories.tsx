@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite'
 
-import { Breadcrumb } from './Breadcrumb'
+import { Breadcrumb } from '@droppy-ui/design-system'
 
 const meta: Meta<typeof Breadcrumb> = {
   title: 'Components/Breadcrumb',
@@ -19,8 +19,8 @@ export const SingleItem: Story = {
 export const MultipleItems: Story = {
   args: {
     items: [
-      { label: 'home', path: '/' },
-      { label: 'categories', path: '/categories' },
+      { label: 'home', href: '/' },
+      { label: 'categories', href: '/categories' },
       { label: 'sushi' },
     ],
   },

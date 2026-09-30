@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { Input } from './Input'
+import { Input } from '@droppy-ui/design-system'
 import { fn } from 'storybook/test'
 
 const meta = {

@@ -1,61 +1,45 @@
+import { Body, Heading } from '@droppy-ui/design-system'
 import styled, { css } from 'styled-components'
 
 import { breakpoints } from '../../../../styles/breakpoints'
-import { Body } from '../../../../components/typography/Body'
-import { Heading } from '../../../../components/typography/Heading'
 
-export const StyledHeading = styled(Heading)<{ $withMargin?: boolean }>(
-  ({
-    theme: {
-      typography: { fontSize },
-    },
-  }) => css`
-    font-size: ${fontSize.heading4};
-    margin-bottom: 0;
-  `
-)
-
-const OuterBar = styled.div(
-  ({ theme: { color, borderRadius } }) => css`
-    height: 4px;
-    border-radius: ${borderRadius.xs};
-    width: 100%;
-    background: ${color.stepsIndicatorOuterBar};
-  `
-)
+const OuterBar = styled.div`
+  height: 4px;
+  border-radius: var(--ds-radius-control);
+  width: 100%;
+  background: var(--ds-color-progress-track);
+`
 const InnerBar = styled.div<{ $progress: string }>(
-  ({ $progress, theme: { color, borderRadius } }) => css`
-    background: ${color.stepsIndicatorInnerBar};
+  ({ $progress }) => css`
+    background: var(--ds-color-progress-fill);
     width: ${$progress};
-    border-radius: ${borderRadius.xs};
+    border-radius: var(--ds-radius-control);
     height: 4px;
     transition: width 0.5s ease-in-out;
   `
 )
 
-const TitleSection = styled.div(
-  ({ theme: { spacing } }) => css`
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    margin-bottom: ${spacing.xs};
+const TitleSection = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-bottom: 0.5em;
+
+  span {
+    margin-top: 0.5em;
+  }
+
+  @media ${breakpoints.M} {
+    margin-bottom: 1em;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
 
     span {
-      margin-top: ${spacing.xs};
+      margin-top: 0;
     }
-
-    @media ${breakpoints.M} {
-      margin-bottom: ${spacing.s};
-      align-items: center;
-      justify-content: space-between;
-      flex-direction: row;
-
-      span {
-        margin-top: 0;
-      }
-    }
-  `
-)
+  }
+`
 
 type StepIndicatorProps = {
   title: string
@@ -68,7 +52,9 @@ export const StepIndicator = ({ title, currentStep, amountOfSteps }: StepIndicat
   return (
     <div style={{ marginBottom: '2rem' }}>
       <TitleSection>
-        <StyledHeading level={3}>{title}</StyledHeading>
+        <Heading level={3} size={4}>
+          {title}
+        </Heading>
         <Body size="XS" type="span">
           Step {currentStep} of {amountOfSteps}
         </Body>

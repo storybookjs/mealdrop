@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import styled, { css } from 'styled-components'
 
-import { Body } from '../typography/Body'
-
-import { Icon } from './Icon'
+import { Body, Icon } from '@droppy-ui/design-system'
 
 const icons = [
   'arrow-right',
@@ -18,12 +16,12 @@ const icons = [
 ] as const
 
 const IconContainer = styled.div(
-  ({ theme: { color } }) => css`
+  () => css`
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     div {
-      border: 1px solid ${color.primaryText};
+      border: 1px solid var(--ds-color-text-primary);
       border-radius: 8px;
       padding: 2rem 1rem;
       display: flex;

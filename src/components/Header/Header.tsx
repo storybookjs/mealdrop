@@ -1,6 +1,9 @@
+import { Body, Button, type ButtonProps } from '@droppy-ui/design-system'
 import styled, { css } from 'styled-components'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useDarkMode from 'use-dark-mode'
+
+import { Link } from '../Link'
 
 import { useAppDispatch, useAppSelector } from '../../app-state'
 import {
@@ -13,21 +16,19 @@ import {
 } from '../../app-state/cart'
 import { breakpoints } from '../../styles/breakpoints'
 import { ShoppingCartMenu } from '../ShoppingCartMenu'
-import { Button } from '../Button'
 import { toCurrency } from '../../helpers'
-import { Body } from '../typography/Body'
 import { Logo } from '../Logo'
 
 export const HeaderContainer = styled.div<{ $sticky: boolean }>(
-  ({ $sticky, theme: { color } }) => css`
+  ({ $sticky }) => css`
     display: flex;
     justify-content: space-between;
     height: 56px;
-    border-bottom: 1px solid ${color.headerBorder};
+    border-bottom: 1px solid var(--ds-color-border-subtle);
     top: 0;
     left: 0;
     position: sticky;
-    background: ${color.headerBackground};
+    background: var(--ds-color-surface-default);
     z-index: 2;
     width: 100%;
     padding: 0 1.5rem;
@@ -81,25 +82,32 @@ export const OptionsContainer = styled.div`
   }
 `
 
-export const CartText = styled(Body)(
-  ({ theme: { color } }) => css`
-    display: none;
-    @media ${breakpoints.M} {
-      display: inline-block;
-      color: ${color.cartButtonText};
-      margin-right: 0.25rem;
-    }
-  `
-)
-
-export const CartTotal = styled(Body)(
-  ({ theme: { color } }) => css`
+// The label sits inside the primary cart Button, so its color must pair
+// with the button surface, not the page; the opacity mutes it below the
+// amount while keeping the on-primary contrast pair.
+export const CartText = styled(Body)`
+  display: none;
+  @media ${breakpoints.M} {
     display: inline-block;
-    color: ${color.buttonText};
-  `
-)
+    color: var(--ds-color-action-on-primary);
+    opacity: 0.8;
+    margin-right: 0.25rem;
+  }
+`
 
-const ThemeToggle = () => {
+export const CartTotal = styled(Body)`
+  display: inline-block;
+  color: var(--ds-color-action-on-primary);
+`
+
+// One flex child for both labels: Button's gap separates its children, so
+// left as siblings the label and amount would inherit the icon-to-label gap
+// instead of the tighter spacing CartText's margin defines.
+const CartLabel = styled.span`
+  display: inline-block;
+`
+
+const ThemeToggle = (props: Omit<ButtonProps, 'icon' | 'onClick'>) => {
   const darkMode = useDarkMode(false, { global: globalThis.window })
   return (
     <Button
@@ -108,6 +116,7 @@ const ThemeToggle = () => {
       aria-label={`turn on ${darkMode.value ? 'light' : 'dark'} mode`}
       icon={darkMode.value ? 'moon' : 'sun'}
       onClick={darkMode.toggle}
+      {...props}
     />
   )
 }
@@ -151,10 +160,10 @@ export const HeaderComponent = ({
           </span>
           <Button aria-label="food cart" icon="cart" onClick={toggleCartVisibility}>
             {totalPrice > 0 && (
-              <>
+              <CartLabel>
                 <CartText type="span">Order</CartText>
                 <CartTotal type="span">{toCurrency(totalPrice)}</CartTotal>
-              </>
+              </CartLabel>
             )}
           </Button>
         </OptionsContainer>

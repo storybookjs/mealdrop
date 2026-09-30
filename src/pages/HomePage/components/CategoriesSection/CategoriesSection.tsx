@@ -1,9 +1,9 @@
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { Carousel, PageSection } from '@droppy-ui/design-system'
 import styled from 'styled-components'
 
-import { PageSection } from '../../../../components/PageSection'
 import { Category, CategoryProps } from '../../../../components/Category'
-import { Carousel } from '../../../../components/Carousel'
+import { Link } from '../../../../components/Link'
 
 type CategoriesSectionProps = {
   categories: CategoryProps[]
