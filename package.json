@@ -52,7 +52,7 @@
     "@droppy-ui/design-system": "^0.3.1",
     "@hookform/resolvers": "^5.5.7",
     "@reduxjs/toolkit": "^2.12.0",
-    "@storybook/vite-plugin": "https://pkg.pr.new/storybookjs/labs/@storybook/vite-plugin@11",
+    "@storybook/vite-plugin": "https://pkg.pr.new/storybookjs/labs/@storybook/vite-plugin@7621a31",
     "axios": "^1.18.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

@@ -2504,16 +2504,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/vite-plugin@https://pkg.pr.new/storybookjs/labs/@storybook/vite-plugin@11":
+"@storybook/vite-plugin@https://pkg.pr.new/storybookjs/labs/@storybook/vite-plugin@7621a31":
   version: 0.0.0
-  resolution: "@storybook/vite-plugin@https://pkg.pr.new/storybookjs/labs/@storybook/vite-plugin@11"
+  resolution: "@storybook/vite-plugin@https://pkg.pr.new/storybookjs/labs/@storybook/vite-plugin@7621a31"
   dependencies:
     pathe: "npm:^1.1.2"
     polka: "npm:^1.0.0-next.28"
   peerDependencies:
     storybook: ^11.0.0-beta.0
     vite: ^6.3.0 || ^7.0.0 || ^8.0.0
-  checksum: 10c0/bdcad63987bdd2da61949cc512b18f8487dc1c543ae853d1afb384c3629f9a9e7a67fb63c76d0e3902780db4d6bd158fdca931a810ed7da09e1e34cabb9879b0
+  checksum: 10c0/cd70f1ad9441dd1a2733f60bfa2341dc34c91feb0bb62ad2accb54c92d68bdda0ae5ce3679c7db57f4bf69aacb00974ebc6f3a8e5baa428aa83d16566947f1f2
   languageName: node
   linkType: hard
 
@@ -4239,7 +4239,7 @@ __metadata:
     "@storybook/addon-vitest": "https://pkg.pr.new/storybookjs/storybook/@storybook/addon-vitest@25acb7b"
     "@storybook/react-vite": "https://pkg.pr.new/storybookjs/storybook/@storybook/react-vite@25acb7b"
     "@storybook/test-runner": "npm:^0.24.5"
-    "@storybook/vite-plugin": "https://pkg.pr.new/storybookjs/labs/@storybook/vite-plugin@11"
+    "@storybook/vite-plugin": "https://pkg.pr.new/storybookjs/labs/@storybook/vite-plugin@7621a31"
     "@testing-library/dom": "npm:^10.4.1"
     "@testing-library/react": "npm:^16.3.2"
     "@testing-library/user-event": "npm:^14.6.7"
