@@ -62,7 +62,6 @@
     "react-router-dom": "^7.18.2",
     "styled-components": "^6.4.4",
     "stylis": "^4.4.0",
-    "typescript": "^7.0.2",
     "use-dark-mode": "^2.3.1",
     "zod": "^4.4.3"
   },
@@ -85,6 +84,7 @@
     "@types/react-redux": "^7.1.34",
     "@types/stylis": "^4.2.7",
     "@types/testing-library__jest-dom": "^6.0.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/browser-playwright": "^4.1.11",
     "@vitest/coverage-v8": "^4.1.11",
@@ -103,6 +103,7 @@
     "react-docgen": "^8.0.2",
     "storybook": "^11.0.0-beta.1",
     "storybook-addon-test-codegen": "^3.0.4",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.3.1",
     "vitest": "^4.1.11",
     "wait-on": "^9.0.1"

@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/react-vite'
 import { INITIAL_VIEWPORTS } from 'storybook/viewport'
-import { userEvent } from '@testing-library/user-event'
 import { setupWorker } from 'msw/browser'
 import { mswLoader } from 'msw-storybook-addon/csf3'
 import { DocsContainer, DocsContainerProps } from '@storybook/addon-docs/blocks'
@@ -158,6 +157,7 @@ const breakpointViewports = Object.keys(breakpoints).reduce((acc, key) => {
 const preview: Preview = {
   initialGlobals: {
     viewport: { value: 'responsive' },
+    theme: 'light',
   },
   parameters: {
     viewport: {
@@ -195,7 +195,6 @@ const preview: Preview = {
     theme: {
       name: 'Theme',
       description: 'Theme for the components',
-      defaultValue: 'light',
       toolbar: {
         icon: 'circlehollow',
         items: [
@@ -210,9 +209,4 @@ const preview: Preview = {
   loaders: [mswPreviewLoader, demoModeLoader],
 }
 
-declare module 'storybook/internal/csf' {
-  interface StoryContext {
-    userEvent: ReturnType<typeof userEvent.setup>
-  }
-}
 export default preview
