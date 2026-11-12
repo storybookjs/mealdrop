@@ -10,7 +10,6 @@ const config: StorybookConfig = {
   addons: [
     '@storybook/addon-vitest',
     '@storybook/addon-a11y',
-    '@storybook/addon-designs',
     '@storybook/addon-docs',
     '@storybook/addon-mcp',
     'msw-storybook-addon',
