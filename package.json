@@ -52,6 +52,7 @@
     "@droppy-ui/design-system": "^0.3.1",
     "@hookform/resolvers": "^5.5.7",
     "@reduxjs/toolkit": "^2.12.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "axios": "^1.18.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -62,7 +63,7 @@
     "react-router-dom": "^7.18.2",
     "styled-components": "^6.4.4",
     "stylis": "^4.4.0",
-    "typescript": "^7.0.2",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "use-dark-mode": "^2.3.1",
     "zod": "^4.4.3"
   },
