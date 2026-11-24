@@ -157,6 +157,7 @@ const breakpointViewports = Object.keys(breakpoints).reduce((acc, key) => {
 
 const preview: Preview = {
   initialGlobals: {
+    theme: 'light',
     viewport: { value: 'responsive' },
   },
   parameters: {
@@ -195,7 +196,6 @@ const preview: Preview = {
     theme: {
       name: 'Theme',
       description: 'Theme for the components',
-      defaultValue: 'light',
       toolbar: {
         icon: 'circlehollow',
         items: [
