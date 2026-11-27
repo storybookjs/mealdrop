@@ -11,7 +11,7 @@ const config: StorybookConfig = {
     '@storybook/addon-vitest',
     '@storybook/addon-a11y',
     // TODO: this addon has a bad instrumentation of getConfig.asyncWrapper that should be fixed
-    'storybook-addon-test-codegen',
+    // 'storybook-addon-test-codegen',
     '@storybook/addon-designs',
     '@storybook/addon-docs',
     '@storybook/addon-mcp',
@@ -24,9 +24,6 @@ const config: StorybookConfig = {
   framework: '@storybook/react-vite',
   features: {
     experimentalCodeExamples: true,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore this exists just doesn't have types
-    experimentalReview: true,
   },
 }
 export default config
